@@ -12,39 +12,30 @@ side_id = 0
 
 [node name="space1" parent="." instance=ExtResource( 1 )]
 position = Vector2( -195, -337.75 )
-space_in_tile_id = 1
 
 [node name="space2" parent="." instance=ExtResource( 1 )]
 position = Vector2( -390, 0 )
-space_in_tile_id = 2
 
 [node name="space3" parent="." instance=ExtResource( 1 )]
 position = Vector2( -195, 337.75 )
-space_in_tile_id = 3
 
 [node name="space4" parent="." instance=ExtResource( 1 )]
 position = Vector2( 195, 337.75 )
-space_in_tile_id = 4
 
 [node name="space5" parent="." instance=ExtResource( 1 )]
 position = Vector2( 390, 0 )
-space_in_tile_id = 5
 
 [node name="space6" parent="." instance=ExtResource( 1 )]
 position = Vector2( 195, -337.75 )
-space_in_tile_id = 6
 
 [node name="space7" parent="." instance=ExtResource( 1 )]
 position = Vector2( 3.05176e-05, -675.5 )
-space_in_tile_id = 7
 
 [node name="space8" parent="." instance=ExtResource( 1 )]
 position = Vector2( -390, -675.5 )
-space_in_tile_id = 8
 
 [node name="space9" parent="." instance=ExtResource( 1 )]
 position = Vector2( -195, -1013.25 )
-space_in_tile_id = 9
 
 [node name="outline" type="Sprite" parent="."]
 visible = false

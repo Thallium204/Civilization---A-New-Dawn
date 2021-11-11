@@ -16,23 +16,26 @@ __meta__ = {
 }
 
 [node name="camera" type="Camera2D" parent="."]
-position = Vector2( 1279.59, 720.659 )
+position = Vector2( 1196.48, 892.671 )
 rotating = true
 current = true
 script = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Tween" type="Tween" parent="camera"]
 
 [node name="tile" parent="." instance=ExtResource( 1 )]
-position = Vector2( 390, 0 )
+position = Vector2( 3510, 675.5 )
 active_side_id = 1
 
 [node name="tile2" parent="." instance=ExtResource( 2 )]
-position = Vector2( 1365, -337.75 )
-
-[node name="tile3" parent="." instance=ExtResource( 2 )]
-position = Vector2( 585, -1688.75 )
+position = Vector2( 2145, 1688.75 )
 active_side_id = 1
 
+[node name="tile3" parent="." instance=ExtResource( 2 )]
+position = Vector2( 1950, 0 )
+
 [node name="tile4" parent="." instance=ExtResource( 1 )]
-position = Vector2( 2340, 0 )
+position = Vector2( 2925, -337.75 )

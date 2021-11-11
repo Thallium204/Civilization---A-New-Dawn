@@ -2,9 +2,6 @@ class_name civ_space, "res://icons/Space.svg"
 tool
 extends Node2D
 
-const COLOR_HOVER = Color.aqua
-const COLOR_SELECTED = Color.coral
-
 var space_neighbours = []
 
 var space_in_tile_id = gl.SPACE_0
@@ -16,10 +13,10 @@ var spawn_id:int = 0 setget set_spawn_id
 var structure = null
 var figures = []
 
-onready var cmp_gui = $area_drag
 onready var sprite_terrain = $sprite_terrain
-onready var sprite_hover = $sprite_hover
-onready var sprite_outline = $sprite_outline
+onready var sprite_spawn = $sprite_spawn
+
+onready var cmp_gui = $area_drag
 
 func add_structure(struct):
 	if structure:
@@ -50,18 +47,16 @@ func set_spawn_id(new_spawn_id):
 	spawn_id = new_spawn_id
 	update_sprite()
 
+
+
 func _init():
 	if Engine.editor_hint:
 		return
 	gl.connect("camera_rot_changed",self,"update_sprite")
 
 func _ready():
-	$sprite_outline.visible = false
-	$sprite_hover.modulate = COLOR_HOVER
-	$sprite_outline.modulate = COLOR_SELECTED
 	update_sprite()
 	cmp_gui = $area_drag
-	cmp_gui.space = self
 	cmp_gui.space = self
 
 
@@ -69,11 +64,11 @@ func update_space_neighbours():
 	space_neighbours = []
 	var space_state = get_world_2d().direct_space_state
 	for dir in range(0,6):
-		var from = position
+		var from = global_position
 		var to = from + gl.AXIS_X.rotated(dir*PI/3.0)
 		var result = space_state.intersect_ray(from,to,[self])
 		if result:
-			space_neighbours.append(result.collider)
+			space_neighbours.append(result.collider.get_parent())
 		else:
 			space_neighbours.append(null)
 
@@ -163,48 +158,30 @@ func update_sprite():
 	match terrain_type:
 		gl.TERRAIN_TYPE_NATURAL_WONDER:
 			path_terrain = "res://assets/natural wonders/isolated/"+gl.get_type_name_as_path(gl.NATURAL_WONDER_NAMES,terrain_id)+".png"
-	$sprite_terrain.texture = load(path_terrain)
+	sprite_terrain.texture = load(path_terrain)
 	
-	sprite_hover.modulate.a = 0
-	if cmp_gui.is_mouse_hovering:
-		sprite_hover.modulate.a = 0.1
-	sprite_outline.visible = cmp_gui.is_space_selected
-	
-	$sprite_spawn.visible = true
+	sprite_spawn.visible = true
 	match spawn_type:
 		gl.SPAWN_TYPE_NONE:
-			$sprite_spawn.visible = false
+			sprite_spawn.visible = false
 		gl.SPAWN_TYPE_RESOURCE:
 			var path_resource = "res://assets/resources/isolated/"+gl.get_type_name_as_path(gl.RESOURCE_NAMES,spawn_id)+".png"
-			$sprite_spawn.texture = load(path_resource)
+			sprite_spawn.texture = load(path_resource)
 		gl.SPAWN_TYPE_BARBARIAN:
 			var path_resource = "res://assets/barbarians/isolated/"+gl.get_type_name_as_path(gl.BARBARIAN_NAMES,spawn_id)+".png"
-			$sprite_spawn.texture = load(path_resource)
+			sprite_spawn.texture = load(path_resource)
 		gl.SPAWN_TYPE_CITY_STATE:
 			var path_resource = "res://assets/city states/"+gl.get_type_name_as_path(gl.CITY_STATE_NAMES,spawn_id)+".png"
-			$sprite_spawn.texture = load(path_resource)
+			sprite_spawn.texture = load(path_resource)
 		gl.SPAWN_TYPE_CAPITAL:
 			var path_resource = "res://assets/capital_icon.png"
-			$sprite_spawn.texture = load(path_resource)
+			sprite_spawn.texture = load(path_resource)
 
-#		{
-#			name = "is_movable",
-#			type = TYPE_BOOL,
-#			usage = PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_SCRIPT_VARIABLE
-#		},
-#		{
-#			name = "Movement",
-#			type = TYPE_NIL,
-#			hint_string = "move_",
-#			usage = PROPERTY_USAGE_GROUP | PROPERTY_USAGE_SCRIPT_VARIABLE
-#		},
-#		{
-#			name = "move_distance_standard",
-#			type = TYPE_INT,
-#			hint = PROPERTY_HINT_RANGE,
-#			hint_string = "0,9999",
-#			usage = PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_SCRIPT_VARIABLE
-#		},
+var has_pulsed = false
+var distance_from = INF
+var optimal_path = []
+
+
 
 
 

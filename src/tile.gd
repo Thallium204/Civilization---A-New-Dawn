@@ -5,18 +5,23 @@ extends Node2D
 var snap = false setget snap_to_grid
 
 var active_side_id = gl.TILE_SIDE_A setget set_active_side_id
-onready var active_side:civ_tile_side = $side_A
 
 func snap_to_grid(_ignore):
 	position = gl.snap_to_hex_grid(position)
 
 func set_active_side_id(new_active_side_id):
 	active_side_id = new_active_side_id
+	make_side_active()
+
+func _ready():
+	make_side_active()
+
+func make_side_active():
 	for child in get_children():
 		if child is civ_tile_side:
 			child.visible = (child.side_id == active_side_id)
-			if child.visible:
-				active_side = child
+			if not Engine.editor_hint and not child.visible:
+				child.free()
 
 func _get_property_list() -> Array:
 	var prop_list = [

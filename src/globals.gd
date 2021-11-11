@@ -139,6 +139,9 @@ enum {
 
 const TERRAIN_TYPE_VALUES = [1,2,3,4,5,1,5,1,0]
 
+func terrain_type_to_value(terrain_type):
+	return TERRAIN_TYPE_VALUES[terrain_type]
+
 const terrain_color = PoolColorArray([
 	Color.darkseagreen,
 	Color.olivedrab,
