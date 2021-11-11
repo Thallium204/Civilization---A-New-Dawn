@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://src/tiles/tile1.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/tiles/tile2.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Main.gd" type="Script" id=3]
+[ext_resource path="res://src/camera.gd" type="Script" id=4]
+
+[node name="Main" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="camera" type="Camera2D" parent="."]
+position = Vector2( 1279.59, 720.659 )
+rotating = true
+current = true
+script = ExtResource( 4 )
+
+[node name="Tween" type="Tween" parent="camera"]
+
+[node name="tile" parent="." instance=ExtResource( 1 )]
+position = Vector2( 390, 0 )
+active_side_id = 1
+
+[node name="tile2" parent="." instance=ExtResource( 2 )]
+position = Vector2( 1365, -337.75 )
+
+[node name="tile3" parent="." instance=ExtResource( 2 )]
+position = Vector2( 585, -1688.75 )
+active_side_id = 1
+
+[node name="tile4" parent="." instance=ExtResource( 1 )]
+position = Vector2( 2340, 0 )

@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/focus cards/none/culture1.png" type="Texture" id=1]
+[ext_resource path="res://CardUI/FocusCard.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 202, 315 )
+
+[sub_resource type="Shader" id=2]
+code = "shader_type canvas_item;
+
+uniform bool is_selected = false;
+uniform vec4 selected_color : hint_color;
+
+uniform bool is_mouse_hovering = false;
+uniform vec4 hovering_color : hint_color;
+
+void fragment() {
+	
+	COLOR = texture(TEXTURE,UV);
+	if (is_mouse_hovering) {
+		COLOR = mix(COLOR,hovering_color,0.5)
+	}
+	if (is_selected) {
+		vec2 dist_UV = abs(vec2(0.5) - UV);
+		float dist = 2.0*max(dist_UV.x,dist_UV.y);
+		COLOR = mix(COLOR,selected_color,pow(dist,6));
+	}
+	
+}"
+
+[sub_resource type="ShaderMaterial" id=3]
+resource_local_to_scene = true
+shader = SubResource( 2 )
+shader_param/is_selected = false
+shader_param/selected_color = Color( 1, 0.886275, 0.576471, 1 )
+shader_param/is_mouse_hovering = false
+shader_param/hovering_color = Color( 0.439216, 0.74902, 1, 1 )
+
+[node name="FocusCard" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="area" type="Area2D" parent="."]
+
+[node name="shape" type="CollisionShape2D" parent="area"]
+shape = SubResource( 1 )
+
+[node name="sprite" type="Sprite" parent="."]
+material = SubResource( 3 )
+scale = Vector2( 0.9, 0.9 )
+texture = ExtResource( 1 )
+
+[connection signal="input_event" from="area" to="." method="_on_area_input_event"]
+[connection signal="mouse_entered" from="area" to="." method="set_is_mouse_hovering" binds= [ true ]]
+[connection signal="mouse_exited" from="area" to="." method="set_is_mouse_hovering" binds= [ false ]]

@@ -1,0 +1,77 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Node2D",
+"class": "civ_city",
+"language": "GDScript",
+"path": "res://src/civ_city.gd"
+}, {
+"base": "Node2D",
+"class": "civ_focus_card",
+"language": "GDScript",
+"path": "res://CardUI/FocusCard.gd"
+}, {
+"base": "Resource",
+"class": "civ_player",
+"language": "GDScript",
+"path": "res://src/civ_player.gd"
+}, {
+"base": "Node2D",
+"class": "civ_space",
+"language": "GDScript",
+"path": "res://src/space.gd"
+}, {
+"base": "Node2D",
+"class": "civ_tile",
+"language": "GDScript",
+"path": "res://src/tile.gd"
+}, {
+"base": "YSort",
+"class": "civ_tile_side",
+"language": "GDScript",
+"path": "res://src/tile_side.gd"
+} ]
+_global_script_class_icons={
+"civ_city": "",
+"civ_focus_card": "",
+"civ_player": "",
+"civ_space": "res://icons/Space.svg",
+"civ_tile": "res://icons/Tile.svg",
+"civ_tile_side": ""
+}
+
+[application]
+
+config/name="Civilization - A New Dawn"
+run/main_scene="res://Game.tscn"
+config/icon="res://icon.png"
+
+[autoload]
+
+gl="*res://src/globals.gd"
+game="*res://src/game_loop.gd"
+
+[display]
+
+window/size/width=2560
+window/size/height=1440
+window/size/test_width=1706
+window/size/test_height=960
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"

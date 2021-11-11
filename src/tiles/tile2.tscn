@@ -1,0 +1,90 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://src/tile.gd" type="Script" id=1]
+[ext_resource path="res://src/tile_side.tscn" type="PackedScene" id=2]
+
+[node name="tile" type="Node2D"]
+script = ExtResource( 1 )
+active_side_id = 0
+snap = false
+
+[node name="side_A" parent="." instance=ExtResource( 2 )]
+
+[node name="space0" parent="side_A" index="0"]
+terrain_type = 6
+terrain_id = 7
+
+[node name="space1" parent="side_A" index="1"]
+terrain_type = 4
+
+[node name="space2" parent="side_A" index="2"]
+terrain_type = 1
+
+[node name="space3" parent="side_A" index="3"]
+terrain_type = 1
+
+[node name="space4" parent="side_A" index="4"]
+terrain_type = 4
+
+[node name="space5" parent="side_A" index="5"]
+terrain_type = 1
+
+[node name="space7" parent="side_A" index="7"]
+terrain_type = 1
+
+[node name="space8" parent="side_A" index="8"]
+terrain_type = 4
+spawn_type = 2
+spawn_id = 1
+
+[node name="space9" parent="side_A" index="9"]
+terrain_type = 4
+
+[node name="side_B" parent="." instance=ExtResource( 2 )]
+visible = false
+side_id = 1
+
+[node name="space0" parent="side_B" index="0"]
+terrain_type = 5
+
+[node name="space1" parent="side_B" index="1"]
+position = Vector2( 195, -337.75 )
+terrain_type = 6
+terrain_id = 1
+
+[node name="space2" parent="side_B" index="2"]
+position = Vector2( 390, 0 )
+terrain_type = 1
+
+[node name="space3" parent="side_B" index="3"]
+position = Vector2( 195, 337.75 )
+terrain_type = 4
+spawn_type = 1
+spawn_id = 3
+
+[node name="space4" parent="side_B" index="4"]
+position = Vector2( -195, 337.75 )
+terrain_type = 4
+
+[node name="space5" parent="side_B" index="5"]
+position = Vector2( -390, 0 )
+terrain_type = 4
+
+[node name="space6" parent="side_B" index="6"]
+position = Vector2( -195, -337.75 )
+terrain_type = 4
+
+[node name="space7" parent="side_B" index="7"]
+position = Vector2( -3.05176e-05, -675.5 )
+terrain_type = 1
+
+[node name="space8" parent="side_B" index="8"]
+position = Vector2( 390, -675.5 )
+terrain_type = 2
+
+[node name="space9" parent="side_B" index="9"]
+position = Vector2( 195, -1013.25 )
+terrain_type = 2
+
+[editable path="side_A"]
+[editable path="side_B"]

@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://src/space.gd" type="Script" id=1]
+[ext_resource path="res://src/area_drag.gd" type="Script" id=2]
+[ext_resource path="res://assets/hex.svg" type="Texture" id=3]
+[ext_resource path="res://assets/hex_outline.svg" type="Texture" id=4]
+[ext_resource path="res://assets/terrain/isolated/grassland.png" type="Texture" id=5]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 194.984
+
+[node name="space" type="Node2D" groups=[
+"space",
+]]
+script = ExtResource( 1 )
+space_in_tile_id = 0
+terrain_type = 0
+spawn_type = 0
+
+[node name="area_drag" type="StaticBody2D" parent="."]
+input_pickable = true
+script = ExtResource( 2 )
+
+[node name="shape" type="CollisionShape2D" parent="area_drag"]
+shape = SubResource( 1 )
+
+[node name="sprite_terrain" type="Sprite" parent="."]
+scale = Vector2( 2.2, 2.2 )
+texture = ExtResource( 5 )
+
+[node name="sprite_hover" type="Sprite" parent="."]
+modulate = Color( 0, 1, 1, 0 )
+rotation = 0.523599
+z_index = 1
+texture = ExtResource( 3 )
+
+[node name="sprite_outline" type="Sprite" parent="."]
+visible = false
+modulate = Color( 1, 0.5, 0.31, 1 )
+rotation = 0.523599
+z_index = 2
+texture = ExtResource( 4 )
+
+[node name="sprite_spawn" type="Sprite" parent="."]
+visible = false
+scale = Vector2( 0.65, 0.65 )
+
+[connection signal="input_event" from="area_drag" to="area_drag" method="_on_area_drag_input_event"]
+[connection signal="mouse_entered" from="area_drag" to="area_drag" method="set_is_mouse_hovering" binds= [ true ]]
+[connection signal="mouse_exited" from="area_drag" to="area_drag" method="set_is_mouse_hovering" binds= [ false ]]
