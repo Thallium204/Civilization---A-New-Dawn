@@ -183,7 +183,9 @@ func update_sprite():
 		gl.SPAWN_TYPE_CITY_STATE:
 			var path_resource = "res://assets/city states/"+gl.get_type_name_as_path(gl.CITY_STATE_NAMES,spawn_id)+".png"
 			$sprite_spawn.texture = load(path_resource)
-
+		gl.SPAWN_TYPE_CAPITAL:
+			var path_resource = "res://assets/capital_icon.png"
+			$sprite_spawn.texture = load(path_resource)
 
 #		{
 #			name = "is_movable",

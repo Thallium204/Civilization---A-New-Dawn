@@ -18,6 +18,11 @@ func set_side_id(new_side_id):
 	position_spaces()
 	orient_outline()
 
+func _ready():
+	for space in space_array:
+		space.space_in_tile_id = int(space.name[-1])
+	position_spaces()
+	orient_outline()
 
 func _get_property_list() -> Array:
 	
