@@ -53,6 +53,7 @@ physics_object_picking = true
 [node name="Options" type="VBoxContainer" parent="."]
 anchor_bottom = 1.0
 margin_right = 300.0
+mouse_filter = 2
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -67,6 +68,7 @@ text = "Click Context:"
 margin_top = 53.0
 margin_right = 300.0
 margin_bottom = 102.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -80,6 +82,7 @@ margin_bottom = 155.0
 margin_top = 159.0
 margin_right = 300.0
 margin_bottom = 208.0
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="Options/hboxDistance"]
 margin_right = 184.0
@@ -91,7 +94,7 @@ text = "Distance: "
 margin_left = 188.0
 margin_right = 300.0
 margin_bottom = 49.0
-min_value = 1.0
+mouse_filter = 2
 max_value = 12.0
 value = 2.0
 
@@ -110,10 +113,12 @@ text = "Path Details:"
 margin_top = 318.0
 margin_right = 300.0
 margin_bottom = 367.0
+mouse_filter = 2
 
 [node name="PathCheckWater" type="CheckButton" parent="Options/hboxPath"]
 margin_right = 144.0
 margin_bottom = 49.0
+mouse_filter = 2
 text = "Water?"
 align = 2
 
@@ -121,6 +126,7 @@ align = 2
 margin_left = 148.0
 margin_right = 275.0
 margin_bottom = 49.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 max_value = 5.0
@@ -147,6 +153,7 @@ text = "Target Details:"
 margin_top = 477.0
 margin_right = 300.0
 margin_bottom = 526.0
+mouse_filter = 2
 
 [node name="TargetCheckWater" type="CheckButton" parent="Options/hboxTarget"]
 margin_right = 144.0

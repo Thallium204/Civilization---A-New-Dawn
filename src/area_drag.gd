@@ -13,12 +13,14 @@ func set_is_mouse_hovering(new_is_mouse_hovering):
 	is_mouse_hovering = new_is_mouse_hovering
 	if not is_mouse_hovering:
 		is_mouse_dragging = false
+	update()
 	update_gui()
 
 # selectability
 
 var is_selectable:bool = true setget set_is_selectable
 func set_is_selectable(new_is_selectable):
+	self.is_selected = false
 	is_selectable = new_is_selectable
 	update_gui()
 
@@ -44,7 +46,7 @@ func _ready():
 
 func update_gui():
 	sprite_hover.visible = is_mouse_hovering
-	z_index = int(is_selectable) + int(is_selected)
+	#z_index = int(is_selectable) + int(is_selected)
 	get_parent().modulate = $sprite_unselectable.modulate if not is_selectable else Color.white
 	sprite_outline.visible = is_selected
 
@@ -55,6 +57,8 @@ func _on_area_drag_input_event(_viewport, event, _shape_idx):
 			if event is InputEventMouseButton:
 				if event.button_index == BUTTON_LEFT and event.pressed:
 					left_clicked()
+				elif event.button_index == BUTTON_RIGHT and event.pressed:
+					print(space.optimal_path)
 		elif gl.edit_mode == gl.EDIT_MODE_MOVE:
 			if event is InputEventMouseButton:
 				if event.button_index == BUTTON_LEFT:
@@ -67,4 +71,25 @@ func _on_area_drag_input_event(_viewport, event, _shape_idx):
 func left_clicked():
 	game.clicked(game.CLICK_LEFT,space,is_selectable)
 
+
+func draw_path():
+	update()
+
+
+func _draw():
+	
+	if is_mouse_hovering:
+	
+		var default_font:Font = Control.new().get_font("font")
+		if space.optimal_path.size() > 1:
+			var points = PoolVector2Array()
+			for p_space in space.optimal_path:
+				var point = (p_space.position - space.position).rotated(-space.rotation)
+				points.append(point)
+			draw_polyline(points,Color.red,16)
+			for p in points.size():
+				var point = points[p]
+				draw_string(default_font, point, str(p), Color.turquoise)
+
+	
 

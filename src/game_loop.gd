@@ -85,72 +85,119 @@ func is_space_valid_target(space):
 var context_select = CONTEXT_CLICK_SELECT setget set_context_select
 
 func set_context_select(new_context_select):
+	if CONTEXT_CLICK_PULSE in [context_select,new_context_select]:
+		RESET_OPTIMAL_PATHS()
 	context_select = new_context_select
 	SET_ALL_SPACE_SELECTABILITY(true)
 	make_selected(null)
 
-func clicked(click,space,space_selectable):
+func clicked(click,space,space_selectable=true):
 	match context_select:
 		CONTEXT_CLICK_SELECT:
 			if not space_selectable:
 				return
 			make_selected(space)
 		CONTEXT_CLICK_PLACE_CITY:
-			if not space_selectable:
-				return
-			var city = gl.CITY_LOAD.instance()
-			city.player_owner = player
-			if not player.capital:
-				city.is_capital = true
-				player.capital = city
-			space.add_structure(city)
+			var city = player.get_city()
+			if city:
+				space.add_structure(city)
 		CONTEXT_CLICK_PULSE:
-			make_selected(space)
-			begin_pulse(space)
+			begin_pulse([space])
+
+
 
 func SET_ALL_SPACE_SELECTABILITY(is_selectable):
-	for space in get_tree().get_nodes_in_group("space"):
+	for space in get_tree().get_nodes_in_group(gl.GROUP_SPACES):
 		space.cmp_gui.is_selectable = is_selectable
+
+
+func RESET_OPTIMAL_PATHS():
+	for space in get_tree().get_nodes_in_group(gl.GROUP_SPACES):
+		if space is civ_space:
+			space.optimal_path = []
+
+func UPDATE_SPACE_NEIGHBOURS():
+	var spaces = get_tree().get_nodes_in_group(gl.GROUP_SPACES)
+	for space in spaces:
+		if space is civ_space:
+			space.update_space_neighbours()
+
 
 var to_be_pulsed = []
 var being_pulsed = []
 var has_been_pulsed = []
+var path_leaves = []
 
-func begin_pulse(start_space:civ_space):
+func begin_pulse(start_spaces):
+	RESET_OPTIMAL_PATHS()
 	SET_ALL_SPACE_SELECTABILITY(false)
-	to_be_pulsed = [start_space]
+	to_be_pulsed = []
 	being_pulsed = []
-	has_been_pulsed = []
+	has_been_pulsed = start_spaces
+	for start_space in has_been_pulsed:
+		start_space.optimal_path = [start_space]
+		start_space.cmp_gui.is_selectable = true
+		get_neighbours_to_be_pulsed(start_space)
 	
 	var options = []
-	for distance in pulse_distance+1:
+	for distance in pulse_distance:
 		
 		being_pulsed = to_be_pulsed.duplicate()
 		to_be_pulsed = []
 		
 		for space in being_pulsed:
-			space.cmp_gui.is_selected = true
-			yield(get_tree().create_timer(0.03), "timeout")
-			if is_space_valid_target(space):
+			if not space:
+				continue
+			
+			#yield(get_tree().create_timer(0.5), "timeout")
+			var is_valid_target = is_space_valid_target(space)
+			var is_valid_path = is_space_valid_path(space)
+			if is_valid_target:
 				options.append(space)
 				space.cmp_gui.is_selectable = true
-				if distance != pulse_distance:
-					get_neighbours_to_be_pulsed(space)
-			elif is_space_valid_path(space):
-				if distance != pulse_distance:
-					get_neighbours_to_be_pulsed(space)
-			space.cmp_gui.is_selected = false
+			if is_valid_path:
+				var branches = get_neighbours_to_be_pulsed(space,distance%2==0)
+				if branches == 0 and not is_valid_target:
+					path_leaves.append(space)
+			if not is_valid_target and not is_valid_path:
+				space.optimal_path = []
 		
 		has_been_pulsed += being_pulsed
 	
-	print("options: ",options)
+	# cut new branches we don't have distance for
+	for space in to_be_pulsed:
+		space.optimal_path = []
+	
+	# cut path-ending branches (leaves)
+	for space in path_leaves + being_pulsed:
+		remove_end_paths(space.optimal_path)
+	
+	for start_space in start_spaces:
+		start_space.cmp_gui.is_selected = true
+
+func remove_end_paths(path):
+	if path.empty():
+		return
+	var self_space = path[-1]
+	if not is_space_valid_target(self_space):
+		var previous_index = max(0,path.size()-1)
+		var previous_space = path[previous_index]
+		self_space.optimal_path = []
+		remove_end_paths(previous_space.optimal_path)
 
 
-func get_neighbours_to_be_pulsed(space:civ_space):
-	var accounted_for = has_been_pulsed + to_be_pulsed
+func get_neighbours_to_be_pulsed(space:civ_space,anti_clock_wise=false):
+	var accounted_for = has_been_pulsed + being_pulsed + to_be_pulsed
+	var ordered_neighbours = space.space_neighbours
+	if anti_clock_wise:
+		ordered_neighbours.invert()
+	var branches = 0
 	for n_space in space.space_neighbours:
 		if n_space and not n_space in accounted_for:
+			n_space.optimal_path = space.optimal_path + [n_space]
 			to_be_pulsed.append(n_space)
+			branches += 1
+	return branches
 
 enum {
 	CLICK_LEFT,
@@ -158,6 +205,12 @@ enum {
 }
 
 
-
+func _unhandled_key_input(event):
+	
+	match event.scancode:
+		KEY_1:
+			
+			player.cities
+	
 
 

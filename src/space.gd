@@ -58,6 +58,7 @@ func _ready():
 	update_sprite()
 	cmp_gui = $area_drag
 	cmp_gui.space = self
+	gl.connect("camera_rot_changed",cmp_gui,"update")
 
 
 func update_space_neighbours():
@@ -150,9 +151,9 @@ func _get_property_list() -> Array:
 
 
 func update_sprite():
-	rotation_degrees = gl.camera_rot
 	if not sprite_terrain:
 		return
+	rotation_degrees = gl.camera_rot
 	#$sprite_terrain.modulate = gl.terrain_color[terrain_type]
 	var path_terrain = "res://assets/terrain/isolated/"+gl.get_type_name_as_path(gl.TERRAIN_TYPE_NAMES,terrain_type)+".png"
 	match terrain_type:
@@ -165,7 +166,7 @@ func update_sprite():
 		gl.SPAWN_TYPE_NONE:
 			sprite_spawn.visible = false
 		gl.SPAWN_TYPE_RESOURCE:
-			var path_resource = "res://assets/resources/isolated/"+gl.get_type_name_as_path(gl.RESOURCE_NAMES,spawn_id)+".png"
+			var path_resource = "res://assets/resources/spawn/"+gl.get_type_name_as_path(gl.RESOURCE_NAMES,spawn_id)+".png"
 			sprite_spawn.texture = load(path_resource)
 		gl.SPAWN_TYPE_BARBARIAN:
 			var path_resource = "res://assets/barbarians/isolated/"+gl.get_type_name_as_path(gl.BARBARIAN_NAMES,spawn_id)+".png"
@@ -179,8 +180,10 @@ func update_sprite():
 
 var has_pulsed = false
 var distance_from = INF
-var optimal_path = []
-
+var optimal_path = [] setget set_optimal_path
+func set_optimal_path(new_optimal_path):
+	optimal_path = new_optimal_path
+	cmp_gui.update()
 
 
 

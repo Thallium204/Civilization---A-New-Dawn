@@ -3,6 +3,9 @@ extends Node
 
 signal camera_rot_changed(camera_rot)
 
+const GROUP_SPACES = "space"
+const GROUP_CITY_SPACES = "city space"
+
 enum {
 	EDIT_MODE_SELECT,
 	EDIT_MODE_MOVE,
@@ -11,8 +14,6 @@ enum {
 const tile_scenes = [
 	preload("res://src/tiles/tile1.tscn"),
 ]
-
-var CITY_LOAD = preload("res://src/civ_city.tscn")
 
 var edit_mode = EDIT_MODE_SELECT
 var edit_mode_metadata
@@ -31,18 +32,21 @@ func get_type_name_as_string(STRING:String,enum_id):
 
 ### SPACES
 
-const AXIS_X = Vector2(390,0)
+const AXIS_X = Vector2(355,0)
 var   AXIS_Y = AXIS_X.rotated(PI/3)
 
 func snap_to_hex_grid(pos):
 	
-	pos.y = stepify(pos.y,AXIS_Y.y)
-	pos.x = stepify(pos.x,AXIS_X.x)
+	var x_float = pos.x / AXIS_X.x
+	var y_float = pos.y / AXIS_Y.y
+	var y_int = int(round(y_float))
+	var y_delta = abs(y_int % 2)
+	var shifted_x_float = x_float + 0.5 * y_delta
+	var shifted_x_int = int(round(shifted_x_float))
+	var x_half = shifted_x_int - 0.5 * y_delta
 	
-	if int(abs(2*pos.y)) % 2*int(2*AXIS_Y.y) == int(2*AXIS_Y.y):
-		pos.x += AXIS_Y.x
-	
-	return pos
+	return Vector2( x_half*AXIS_X.x , y_int*AXIS_Y.y )
+
 
 var SPACE_POSITIONS = [
 	Vector2.ZERO,

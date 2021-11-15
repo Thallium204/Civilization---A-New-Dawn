@@ -1,9 +1,23 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://src/tiles/tile1.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/tiles/tile2.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Main.gd" type="Script" id=3]
 [ext_resource path="res://src/camera.gd" type="Script" id=4]
+[ext_resource path="res://src/tiles/tile9.tscn" type="PackedScene" id=8]
+[ext_resource path="res://src/tiles/tile8.tscn" type="PackedScene" id=9]
+[ext_resource path="res://src/tiles/tile3.tscn" type="PackedScene" id=10]
+[ext_resource path="res://src/tiles/tile5.tscn" type="PackedScene" id=11]
+[ext_resource path="res://src/tiles/tile13.tscn" type="PackedScene" id=12]
+[ext_resource path="res://src/tiles/tile16.tscn" type="PackedScene" id=13]
+[ext_resource path="res://src/tiles/tile12.tscn" type="PackedScene" id=16]
+[ext_resource path="res://src/tiles/tile4.tscn" type="PackedScene" id=17]
+[ext_resource path="res://src/tiles/tile10.tscn" type="PackedScene" id=18]
+[ext_resource path="res://src/tiles/tile6.tscn" type="PackedScene" id=19]
+[ext_resource path="res://src/tiles/tile11.tscn" type="PackedScene" id=20]
+[ext_resource path="res://src/tiles/tile7.tscn" type="PackedScene" id=21]
+[ext_resource path="res://src/tiles/tile15.tscn" type="PackedScene" id=22]
+[ext_resource path="res://src/tiles/tile14.tscn" type="PackedScene" id=23]
 
 [node name="Main" type="Control"]
 anchor_right = 1.0
@@ -26,16 +40,64 @@ __meta__ = {
 
 [node name="Tween" type="Tween" parent="camera"]
 
-[node name="tile" parent="." instance=ExtResource( 1 )]
-position = Vector2( 3510, 675.5 )
-active_side_id = 1
+[node name="YSort" type="YSort" parent="."]
 
-[node name="tile2" parent="." instance=ExtResource( 2 )]
-position = Vector2( 2145, 1688.75 )
-active_side_id = 1
+[node name="tile1" parent="YSort" instance=ExtResource( 1 )]
+position = Vector2( -177.5, 2152.07 )
+rotation = 3.14159
 
-[node name="tile3" parent="." instance=ExtResource( 2 )]
-position = Vector2( 1950, 0 )
+[node name="tile2" parent="YSort" instance=ExtResource( 2 )]
+position = Vector2( 0, 1229.76 )
 
-[node name="tile4" parent="." instance=ExtResource( 1 )]
-position = Vector2( 2925, -337.75 )
+[node name="tile3" parent="YSort" instance=ExtResource( 10 )]
+position = Vector2( -887.5, 1537.2 )
+rotation = -1.0472
+
+[node name="tile4" parent="YSort" instance=ExtResource( 17 )]
+position = Vector2( 1420, 1229.76 )
+
+[node name="tile5" parent="YSort" instance=ExtResource( 11 )]
+position = Vector2( -177.5, -307.439 )
+rotation = -2.0944
+
+[node name="tile6" parent="YSort" instance=ExtResource( 19 )]
+position = Vector2( 532.5, 307.439 )
+rotation = 3.14159
+
+[node name="tile7" parent="YSort" instance=ExtResource( 21 )]
+position = Vector2( -1420, 614.878 )
+rotation = 2.0944
+
+[node name="tile8" parent="YSort" instance=ExtResource( 9 )]
+position = Vector2( 2662.5, 2766.95 )
+rotation = -1.0472
+
+[node name="tile9" parent="YSort" instance=ExtResource( 8 )]
+position = Vector2( 2130, 1844.63 )
+rotation = 1.0472
+
+[node name="tile10" parent="YSort" instance=ExtResource( 18 )]
+position = Vector2( 2840, 614.878 )
+
+[node name="tile11" parent="YSort" instance=ExtResource( 20 )]
+position = Vector2( 1242.5, 2766.95 )
+rotation = -1.0472
+
+[node name="tile12" parent="YSort" instance=ExtResource( 16 )]
+position = Vector2( 710, -1229.76 )
+rotation = 2.0944
+
+[node name="tile13" parent="YSort" instance=ExtResource( 12 )]
+position = Vector2( 1242.5, -307.439 )
+rotation = -1.0472
+
+[node name="tile14" parent="YSort" instance=ExtResource( 23 )]
+position = Vector2( 1952.5, 307.439 )
+rotation = 3.14159
+
+[node name="tile15" parent="YSort" instance=ExtResource( 22 )]
+position = Vector2( 710, 1844.63 )
+rotation = 2.0944
+
+[node name="tile16" parent="YSort" instance=ExtResource( 13 )]
+position = Vector2( 2130, -614.878 )
